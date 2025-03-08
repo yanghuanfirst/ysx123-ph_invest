@@ -1,0 +1,12 @@
+{
+    "name": "ysx123/recipe",
+    "description": "A face",
+    "minimum-stability": "dev",
+    "version": "1.0.0",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "ysx\\recipe\\": "src/"
+        }
+    }
+}
