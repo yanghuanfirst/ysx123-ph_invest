@@ -170,7 +170,7 @@ class Recipe extends ActiveRecord
                 "message"=>"Missing parameter",'on' => 'collect',
             ],
             [
-                ["action_type"],"integer","required","message"=>"Missing parameter",'on' => 'collect',
+                ["action_type"],"required","message"=>"Missing parameter",'on' => 'collect',
             ],
             [
                 ["action_type"],"integer",
