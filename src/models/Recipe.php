@@ -308,8 +308,18 @@ class Recipe extends ActiveRecord
                 'tooSmall' => 'Size number minimum 1',
                 'tooBig' => 'Size number maximum 100',
                 'on' => 'recipe_comment_list',
-            ],
 
+                [
+                    ['recipe_id'], 'required',
+                    'message' => 'Missing parameter',
+                    'on' => 'add_comment',
+                ],            [
+                ['recipe_id'], 'integer',
+                'min' => 1,
+                'message' => 'ID Incorrect type parameter',
+                'tooSmall' => 'ID number minimum 1',
+                'on' => 'add_comment',
+            ],
             //删除评论验证
             [['comment_id'], 'required',
                 'message' => 'param cannot be empty.',
