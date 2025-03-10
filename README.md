@@ -46,7 +46,7 @@ php generate_url.php 目录名 前缀
 
 ### 7：线上项目执行数据迁移，创建表
 ```bash
-    php yii migrate --migrationPath=vendor/ysx123/recipe/src/migrations/
+    php yii migrate --migrationPath=vendor/ysx123/ph_invest/src/migrations/
 ```
 #### 如果该迁移已经被执行过一次，那上面的命令无法再次执行，需要先删除掉执行记录。删除后再次执行上面迁移命令。
 ```sql
