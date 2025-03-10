@@ -1,7 +1,7 @@
 <?php
 use yii\db\Migration;
 
-class m250225_19848_create_comment_table extends Migration
+class m250225_198481_create_comment_table extends Migration
 {
     public function up()
     {
