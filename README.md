@@ -1,5 +1,5 @@
-# 食谱模块安装
-### 1：直接在线上包，通过composer安装
+# 投资分享模块安装
+### 1：通过composer安装
 ```bash
 composer require ysx123/ph_invest:dev-master --ignore-platform-reqs
 ```
@@ -37,7 +37,7 @@ composer require ysx123/ph_invest:dev-master --ignore-platform-reqs
     '/recipe/recipe/delete-comment' => "credit/syncabl12",
     '/recipe/recipe/edit-recipe' => "credit/syncabl13",
 ```
-### 4:修改app-api-doc项目，增加文档，直接复制到相应项目的文档目录里。示例文档在：D:\www\ysx_www\app-api-doc\docs\ph_shiny_pera_ios\recipe.md
+### 4:修改app-api-doc项目，增加文档，直接复制到相应项目的文档目录里。示例文档在：D:\www\ysx_www\app-api-doc\docs\ph_wealth_cash_ios\recipe.md
 
 ### 5：执行生成混淆路由和混淆字段
 ```bash
