@@ -23,7 +23,7 @@ composer require ysx123/ph_invest:dev-master --ignore-platform-reqs
 ### 3：app-api-doc项目增加url路由，用于混淆。修改url.php文件
 ```php
     //因为这是一个独立出去的模块。所以前面加个recipe模块名
-    '/recipe/recipe/recipe-type' => "credit/syncabl1",
+ '/recipe/recipe/recipe-type' => "credit/syncabl1",
     '/recipe/recipe/index' => "credit/syncabl2",
     '/recipe/recipe/collect-list' => "credit/syncabl3",
     '/recipe/recipe/detail' => "credit/syncabl4",
@@ -32,6 +32,10 @@ composer require ysx123/ph_invest:dev-master --ignore-platform-reqs
     '/recipe/recipe/add-recipe' => "credit/syncabl7",
     '/recipe/recipe/del-recipe' => "credit/syncabl8",
     '/recipe/recipe/my-recipe' => "credit/syncabl9",
+    '/recipe/recipe/add-comment' => "credit/syncabl10",
+    '/recipe/recipe/comment-list' => "credit/syncabl11",
+    '/recipe/recipe/delete-comment' => "credit/syncabl12",
+    '/recipe/recipe/edit-recipe' => "credit/syncabl13",
 ```
 ### 4:修改app-api-doc项目，增加文档，直接复制到相应项目的文档目录里。示例文档在：D:\www\ysx_www\app-api-doc\docs\ph_shiny_pera_ios\recipe.md
 
