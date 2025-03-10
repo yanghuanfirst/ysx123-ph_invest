@@ -118,7 +118,7 @@ class RecipeController extends BaseController
         }
         $offset = ($page - 1) * $pageSize;
         $total = Recipe::find()->where($map)->count();
-        $list = Recipe::find()->select(["id","title","cover_img","type","created_at"])->where($map)->orderBy([
+        $list = Recipe::find()->select(["id","title","cover_img","type","created_at","collect_num","like_num"])->where($map)->orderBy([
             'id' => SORT_DESC,
         ])->offset($offset)->limit($pageSize)->asArray()->all();
         //查询推荐的3条的数据
@@ -341,7 +341,7 @@ class RecipeController extends BaseController
             }
             //判断是否收藏
             if($info["is_collect"] == 1 || $info["is_like"] == 1){
-                $collectedOrLiked = RecipeCollect::find()->select("id","action_type")->where(["user_id"=>$userId,"recipe_id"=>$recipeId])->asArray()->all();
+                $collectedOrLiked = RecipeCollect::find()->select(["id","action_type"])->where(["user_id"=>$userId,"recipe_id"=>$recipeId])->asArray()->all();
                 if ($collectedOrLiked){
                         foreach ($collectedOrLiked as $v){
                             if($v["action_type"] == 1){
