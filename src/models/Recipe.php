@@ -344,7 +344,7 @@ class Recipe extends ActiveRecord
         $scenarios['upload_image'] = ['image_file'];
         $scenarios['add_recipe'] = ['title', 'type',"detail","cover_img"];
         $scenarios['del_recipe'] = ['id'];
-        $scenarios['collect'] = ['id'];
+        $scenarios['collect'] = ['id','action_type'];
         $scenarios['detail'] = ['id'];
         $scenarios['my_recipe'] = ["page","size"];
         return $scenarios;
