@@ -428,8 +428,8 @@ class RecipeController extends BaseController
         }
         $comment = new Comment();
         $comment->user_id = $userId;
-        $comment->recipe_id = $request->get("recipe_id");
-        $comment->comment_content = $request->get("comment_content");
+        $comment->recipe_id = $request->post("recipe_id");
+        $comment->comment_content = $request->post("comment_content");
         $comment->save();
         return $this->formatJson(0, 'Review success');
     }
