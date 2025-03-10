@@ -325,7 +325,7 @@ class RecipeController extends BaseController
             return $this->formatJson(ResponseCode::PARAM_CHECK_FAIL, current($recipeModel->getFirstErrors()));
         }
         $recipeId = $request->get("id",0);
-        $info = Recipe::find()->select(["id","title","cover_img","type","detail","created_at","user_id"])->where(["id"=>$recipeId])->asArray()->one();
+        $info = Recipe::find()->select(["id","title","cover_img","type","detail","created_at","user_id","collect_num","like_num"])->where(["id"=>$recipeId])->asArray()->one();
         if(!$info)
             return $this->formatJson(-1, "recipe not exist");
         $info["is_collect"] = 0;//0：不显示收藏按钮  1：显示收藏按钮
