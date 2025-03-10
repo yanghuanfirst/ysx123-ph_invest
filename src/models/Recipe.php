@@ -11,6 +11,7 @@ class Recipe extends ActiveRecord
     public $page;
     public $size;
     public $image_file;
+    public $action_type;
     public function rules() :array
     {
         return [
