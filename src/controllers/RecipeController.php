@@ -129,7 +129,7 @@ class RecipeController extends BaseController
         Yii::info("食谱上传图片 " . json_encode($model->image_file, JSON_UNESCAPED_UNICODE), "appInfo");
         if (!$model->validate()) {
             //return json_encode(['success' => true, 'url' => Yii::getAlias('@web/uploads/') . basename($filePath)]);
-            //return $this->formatJson(ResponseCode::PARAM_CHECK_FAIL, current($model->getFirstErrors()));
+            return $this->formatJson(ResponseCode::PARAM_CHECK_FAIL, current($model->getFirstErrors()));
         }
         $extension = substr($model->image_file->name, strrpos($model->image_file->name, '.') + 1);
         $object = 'recipe/'.Util::getNewName($extension);
