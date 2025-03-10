@@ -262,6 +262,7 @@ class Recipe extends ActiveRecord
             ],
             [
                 ['comment_content'],
+                'string',
                 'max' => 1000,
                 "min" => 1,
                 'on' => 'add_comment',
