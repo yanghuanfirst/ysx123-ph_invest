@@ -7,7 +7,7 @@ class m250225_19848_create_comment_table extends Migration
     {
         $tableOptions = null;
         if ($this->db->driverName === 'mysql') {
-            $tableOptions = 'ENGINE=InnoDB CHARSET=utf8mb4 COMMENT="食谱表"';
+            $tableOptions = 'ENGINE=InnoDB CHARSET=utf8mb4 COMMENT="评论表"';
         }
 
         $this->createTable('{{%comment}}', [
