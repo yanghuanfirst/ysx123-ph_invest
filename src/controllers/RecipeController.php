@@ -33,42 +33,31 @@ class RecipeController extends BaseController
         ],
         [
             "id"=>1,
-            "value"=>"western food",
+            "value"=>"Stocks",
         ],
         [
             "id"=>2,
-            "value"=>"philippine stew seasoning",
+            "value"=>"Bonds",
         ],
         [
             "id"=>3,
-            "value"=>"Guangdong cuisine",
+            "value"=>"Funds",
         ],
         [
             "id"=>4,
-            "value"=>"Fujian cuisine",
+            "value"=>"Real Estate",
         ],
         [
             "id"=>5,
-            "value"=>"Shandong cuisine",
+            "value"=>"Crypto",
         ],
         [
             "id"=>6,
-            "value"=>"Jiangxi cuisine",
+            "value"=>"Retirement",
         ],
         [
             "id"=>7,
-            "value"=>"Hubei cuisine"
-        ],
-        [
-            "id"=>8,
-            "value"=>"Hainan cuisine"],
-        [
-            "id"=>9,
-            "value"=>"Sichuan cuisine"
-        ],
-        [
-            "id"=>10,
-            "value"=>"Hunan cuisine"
+            "value"=>"Wealth Management"
         ]
     ];
 

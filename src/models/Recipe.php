@@ -65,11 +65,11 @@ class Recipe extends ActiveRecord
                 'on' => 'recipe_list',
             ],
             //上传图片验证
-            ['image_file', 'required',
+            ['took', 'required',
                 'on' => 'upload_image',
                 'message' => 'You must upload an image file.' // 自定义错误信息
             ],
-            [['image_file'], 'file',
+            [['took'], 'file',
                 'skipOnEmpty' => false,
                 "maxSize"=>1024*1024,
                 'mimeTypes' => 'image/*',"on"=>"upload_image",
@@ -356,7 +356,7 @@ class Recipe extends ActiveRecord
     {
         $scenarios = parent::scenarios();
         $scenarios['recipe_list'] = ['title', 'type',"page","size"];
-        $scenarios['upload_image'] = ['image_file'];
+        $scenarios['upload_image'] = ['took'];
         $scenarios['add_recipe'] = ['title', 'type',"detail","cover_img"];
         $scenarios['del_recipe'] = ['id'];
         $scenarios['collect'] = ['id','action_type'];
