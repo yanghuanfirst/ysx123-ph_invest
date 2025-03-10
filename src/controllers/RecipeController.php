@@ -124,7 +124,7 @@ class RecipeController extends BaseController
         //查询推荐的3条的数据
         //$recommend = Recipe::find()->select(["id","title","cover_img","type"])->where(["recommend"=>2])->limit(3)->asArray()->all();
         $recommend = Recipe::find()->select(["id","title","cover_img","type"])->orderBy(["like_num"=>SORT_DESC])->limit(3)->asArray()->all();
-        return $this->formatJson(0, 'success', compact('total','list','recommend'));
+        return Util::jsonReturn(0, 'success', compact('total','list','recommend'));
     }
 
     /**
