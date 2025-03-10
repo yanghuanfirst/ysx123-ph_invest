@@ -13,6 +13,7 @@ class Recipe extends ActiveRecord
     public $image_file;
     public $action_type;
     public $recipe_id;
+    public $comment_content;
     public function rules() :array
     {
         return [
