@@ -160,25 +160,14 @@ class Recipe extends ActiveRecord
                 'on' => 'collect_list',
             ],
             //点击收藏的验证
-            [
-                ["id"],"required","message"=>"Missing parameter",'on' => 'collect',
-            ],
-            [
-                ["id"],"integer",
-                'min' => 1,
-                'tooSmall' => 'The minimum length of the type is 1',
-                "message"=>"Missing parameter",'on' => 'collect',
-            ],
-            [
-                ["action_type"],"required","message"=>"Missing parameter",'on' => 'collect',
-            ],
-            [
-                ["action_type"],"integer",
-                'min' => 1,
-                "max"=>2,
+            [['id'], 'required', 'message' => 'Missing parameter', 'on' => 'collect'],
+            [['id'], 'integer', 'min' => 1, 'tooSmall' => 'The minimum length of the type is 1', 'on' => 'collect'],
+
+            [['action_type'], 'required', 'message' => 'Missing parameter', 'on' => 'collect'],
+            [['action_type'], 'integer', 'min' => 1, 'max' => 2,
                 'tooSmall' => 'The minimum length of the type is 1',
                 'tooBig' => 'The maximum length of the type is 2',
-                "message"=>"Missing parameter",'on' => 'collect',
+                'on' => 'collect'
             ],
             //查看详情
             [
