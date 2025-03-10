@@ -428,7 +428,7 @@ class RecipeController extends BaseController
         }
         $comment = new Comment();
         $comment->user_id = $user->id;
-        $comment->username = $user->username;
+        $comment->username = $user->user_name;
         $comment->recipe_id = $request->post("recipe_id");
         $comment->comment_content = $request->post("comment_content");
         $comment->save();
