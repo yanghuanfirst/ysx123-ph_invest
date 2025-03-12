@@ -20,7 +20,6 @@ class m230225_123456_create_recipe_table extends Migration
             'user_id' => $this->integer(11)->notNull()->defaultValue(0)->comment('用户ID'),
             'collect_num' => $this->integer(11)->notNull()->defaultValue(0)->comment('收藏数'),
             'like_num' => $this->integer(11)->notNull()->defaultValue(0)->comment('点赞数'),
-            'gps_address' => $this->string(255)->notNull()->defaultValue("")->comment('发布位置'),
             'created_at' => $this->timestamp()->defaultValue(null)->comment('创建时间'),
             'updated_at' => $this->timestamp()->defaultValue(null)->comment('更新时间'),
         ], $tableOptions);
