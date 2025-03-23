@@ -13,6 +13,8 @@ use common\services\youmi\PictureService;
 use Yii;
 use yii\web\UploadedFile;
 use frontend\controllers\BaseController;
+use ysx\recipe\models\RecipeReport;
+use function Symfony\Component\String\s;
 
 class RecipeController extends BaseController
 {
@@ -24,7 +26,8 @@ class RecipeController extends BaseController
         'collect',
         'my-recipe',
         'add-comment',
-        'delete-comment'
+        'delete-comment',
+        'report-recipe'
     ];
     protected $recipeType = [
         [
@@ -60,7 +63,40 @@ class RecipeController extends BaseController
             "value"=>"Wealth Management"
         ]
     ];
-
+    protected $reportType = [
+        [
+            "id"=>1,
+            "value"=>"False Information",
+        ],
+        [
+            "id"=>2,
+            "value"=>"Scam or Fraud",
+        ],
+        [
+            "id"=>3,
+            "value"=>"Ads or Spam",
+        ],
+        [
+            "id"=>4,
+            "value"=>"Malicious Behavior",
+        ],
+        [
+            "id"=>5,
+            "value"=>"Inappropriate Content",
+        ],
+        [
+            "id"=>6,
+            "value"=>"FPrivacy Violation",
+        ],
+        [
+            "id"=>7,
+            "value"=>"Misleading Investment Advice",
+        ],
+        [
+            "id"=>8,
+            "value"=>"Other",
+        ],
+    ];
     /**
      * @desc actionRecipeType 菜谱类型
      * @create_at 2025/2/26 11:06
@@ -79,6 +115,16 @@ class RecipeController extends BaseController
             ];
         }
         return $this->formatJson(0, 'success', ["type_list"=>$result]);
+    }
+
+    /**
+     * @desc actionReportType 举报类型
+     * @create_at 2025/3/22 15:13
+     * @return array
+     */
+    function actionReportType():array
+    {
+        return $this->formatJson(0, 'success', ["type_list"=>$this->reportType]);
     }
     /**
      * @desc actionIndex 首页菜谱列表
@@ -99,6 +145,7 @@ class RecipeController extends BaseController
             return $this->formatJson(ResponseCode::PARAM_CHECK_FAIL, current($recipeModel->getFirstErrors()));
         }
         $map = ["and"];
+        $map[] = ['recipe_status'=>2];
         if($title){
             $map[] = ['like','title',$title];
         }
@@ -107,12 +154,12 @@ class RecipeController extends BaseController
         }
         $offset = ($page - 1) * $pageSize;
         $total = Recipe::find()->where($map)->count();
-        $list = Recipe::find()->select(["id","title","cover_img","type","created_at","collect_num","like_num"])->where($map)->orderBy([
+        $list = Recipe::find()->select(["id","title","cover_img","type","created_at","collect_num","like_num","recipe_status"])->where($map)->orderBy([
             'id' => SORT_DESC,
         ])->offset($offset)->limit($pageSize)->asArray()->all();
         //查询推荐的3条的数据
         //$recommend = Recipe::find()->select(["id","title","cover_img","type"])->where(["recommend"=>2])->limit(3)->asArray()->all();
-        $recommend = Recipe::find()->select(["id","title","cover_img","type"])->orderBy(["like_num"=>SORT_DESC])->limit(3)->asArray()->all();
+        $recommend = Recipe::find()->select(["id","title","cover_img","type"])->where(['recipe_status'=>2])->orderBy(["like_num"=>SORT_DESC])->limit(3)->asArray()->all();
         return $this->formatJson(0, 'success', compact('total','list','recommend'));
     }
 
@@ -322,11 +369,13 @@ class RecipeController extends BaseController
         $info["is_delete"] = 0;//0：不显示删除按钮  1：显示删除按钮
         $info["is_collected"] = 0;//0：未收藏  1：已收藏
         $info["is_liked"] = 0;//0：未点赞  1：已点赞
+        $info["is_report"] = 0;//0：不显示举报按钮  1：显示举报按钮
         if($userId){
             if($userId != $info["user_id"]){
                 $info["is_collect"] = 1;//0：不显示收藏按钮  1：显示收藏按钮
                 $info["is_like"] = 1;//0：不显示点赞按钮  1：显示点赞按钮
                 $info["is_delete"] = 0;//0：不显示删除按钮  1：显示删除按钮
+                $info["is_report"] = 1;//0：不显示举报按钮  1：显示举报按钮
             }else{
                 $info["is_delete"] = 1;//0：不显示删除按钮  1：显示删除按钮
             }
@@ -334,13 +383,13 @@ class RecipeController extends BaseController
             if($info["is_collect"] == 1 || $info["is_like"] == 1){
                 $collectedOrLiked = RecipeCollect::find()->select(["id","action_type"])->where(["user_id"=>$userId,"recipe_id"=>$recipeId])->asArray()->all();
                 if ($collectedOrLiked){
-                        foreach ($collectedOrLiked as $v){
-                            if($v["action_type"] == 1){
-                                $info["is_collected"] = 1;
-                            }elseif ($v["action_type"] == 2){
-                                $info["is_liked"] = 1;
-                            }
+                    foreach ($collectedOrLiked as $v){
+                        if($v["action_type"] == 1){
+                            $info["is_collected"] = 1;
+                        }elseif ($v["action_type"] == 2){
+                            $info["is_liked"] = 1;
                         }
+                    }
                 }
 
             }
@@ -394,14 +443,54 @@ class RecipeController extends BaseController
         }
         $offset = ($page - 1) * $pageSize;
         $total = Recipe::find()->where(["user_id"=>$userId])->count();
-        $list = Recipe::find()->where(["user_id"=>$userId])->select(["id","title","cover_img","type","created_at"])->orderBy([
+        $list = Recipe::find()->where(["user_id"=>$userId])->select(["id","title","cover_img","type","created_at","recipe_status"])->orderBy([
             'id' => SORT_DESC,
         ])->offset($offset)->limit($pageSize)->asArray()->all();
+        foreach ($list as $k=>$v){
+            $v["status_zh"] = match($v["recipe_status"]){
+                1 => "Under review",
+                2 => "Approved",
+                3 => "Rejected",
+                4 => "Reported",
+                default => "Unknown"
+            };
+            $list[$k] = $v;
+        }
         //收藏数量
         $collectCount = RecipeCollect::find()->where(["user_id"=>$userId])->count();
         return $this->formatJson(0, 'success', compact('total','list',"collectCount"));
     }
 
+    /**
+     * @desc actionReportRecipe 举报
+     * @create_at 2025/3/22 14:58
+     * @return array
+     */
+    function actionReportRecipe():array
+    {
+        $user = $this->getLoginUser();
+        $request = Yii::$app->request;
+        $recipeModel = new RecipeReport();
+        $recipeModel->scenario = 'report_recipe';
+        $postData = $request->post();
+        $recipeModel->load($postData,"");
+        if (!$recipeModel->validate()) {
+            return $this->formatJson(ResponseCode::PARAM_CHECK_FAIL, current($recipeModel->getFirstErrors()));
+        }
+        $recipeInfo = Recipe::find()->where(["id"=>$postData["id"]])->one();
+        if(!$recipeInfo)
+            return $this->formatJson(-1, "article not exist");
+        $reportModel = new RecipeReport();
+        $reportModel->user_id = $user->id;
+        $reportModel->recipe_id = $postData["id"];//文章ID
+        $reportModel->report_type_id = $postData["report_type_id"];
+        $reportModel->report_content = $postData["report_content"];
+        $reportModel->username = $user->user_name;;
+        $reportModel->save();
+        $recipeInfo->recipe_status = 4;
+        $recipeInfo->save();
+        return $this->formatJson(0, 'action success');
+    }
     /**
      * @desc actionAddComment 发布评论
      * @create_at 2025/3/8 14:07
